@@ -139,7 +139,7 @@ nav a {
     height: clamp(140px, 20vmin, 300px);
     object-fit: cover;
     border-radius: 50%;
-    box-shadow: 0 10px 30px rgba(255, 0, 0, .63);
+    box-shadow: 0 10px 30px rgba(227, 232, 232, 0.63);
 }
 
 .porfile-card h1 {
@@ -432,6 +432,118 @@ footer a {
     .titulo-parallax h2 {
         font-size: 2.5rem;
     }
+}
+/* ================= FAVORITOS ================= */
+
+
+#favoritos .grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+.favorito-video {
+
+    width: 100%;
+    height: auto;
+
+    border-radius: 15px;
+
+    margin-top: 15px;
+
+    background: black;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+
+}
+
+
+
+.favorito-img {
+
+    width: 100%;
+
+    height: 350px;
+
+    object-fit: contain;
+
+    border-radius: 15px;
+
+    margin-top: 15px;
+
+    background: #f1f5f9;
+
+    padding: 10px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+
+}
+
+
+
+/* RESPONSIVE FAVORITOS */
+
+@media (max-width:600px){
+
+
+    #favoritos .grid {
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .favorito-img {
+
+        height:300px;
+
+    }
+
+
+}
+/* ================= AJUSTE TARJETA INICIO ================= */
+
+
+.porfile-card {
+
+    margin-left: 8%;
+
+    margin-right: auto;
+
+    max-width: 900px;
+
+    padding: 45px;
+
+}
+
+
+/* Movimiento suave hacia la izquierda */
+
+@media (min-width: 901px){
+
+    .porfile-card{
+
+        transform: translateX(-60px);
+
+    }
+
+}
+
+
+
+/* Celulares */
+
+@media (max-width:600px){
+
+    .porfile-card{
+
+        margin: 20px;
+
+        transform: none;
+
+        padding: 30px;
+
+    }
+
 }
 
 
