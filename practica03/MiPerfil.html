@@ -238,64 +238,68 @@
     <!-- ====================== -->
     <!-- FAVORITOS -->
     <!-- ====================== -->
-
-   <section id="favoritos">
+<section id="favoritos">
 
     <div class="parallax parallax-5 titulo-parallax">
         <h2>Mis favoritos</h2>
     </div>
 
-
     <div class="contenido-seccion">
 
-        <div class="grid">
+        <div class="carrusel" aria-roledescription="carrusel" aria-label="Mis favoritos">
 
+            <button class="carrusel-btn carrusel-prev" type="button" aria-label="Anterior">&#10094;</button>
 
-            <!-- PELÍCULA -->
-            <article class="card">
+            <div class="carrusel-ventana">
+                <div class="carrusel-pista">
 
-                <h3>Película favorita</h3>
+                    <!-- ===== SLIDE 1: PELÍCULA ===== -->
+                    <article class="carrusel-slide">
+                        <h3>Película favorita</h3>
 
-                <video class="favorito-video" controls>
-                    <source src="assets/videos/trailer.mp4" type="video/mp4">
-                    Tu navegador no soporta la reproducción de video.
-                </video>
+                        <!-- 👉 UBICACIÓN DEL TRÁILER: carpeta assets/videos/ -> assets/videos/trailer.mp4 -->
+                        <a href="assets/videos/trailer.mp4" target="_blank" rel="noopener" class="carrusel-enlace">
 
+                            <!-- 👉 UBICACIÓN DE LA PORTADA DE LA PELÍCULA: carpeta assets/Images/ -> assets/Images/portada-interestelar.jpg -->
+                            <img src="assets/images/portadaa.jpg"
+                                alt="Portada de la película Interestelar"
+                                class="favorito-img">
+                        </a>
 
-                <p>
-                    Interestelar
-                </p>
+                        <p>Interestelar</p>
+                        <span class="carrusel-pista-texto">Toca la portada para ver el tráiler</span>
+                    </article>
 
-            </article>
+                    <!-- ===== SLIDE 2: LIBRO ===== -->
+                    <article class="carrusel-slide">
+                        <h3>Libro favorito</h3>
 
+                        <!-- 👉 UBICACIÓN DEL LIBRO PDF: carpeta assets/pdf/ -> assets/pdf/don-quijote.pdf -->
+                        <a href="assets/pdf/don-quijote.pdf" target="_blank" rel="noopener" class="carrusel-enlace">
 
+                            <!-- 👉 UBICACIÓN DE LA PORTADA DEL LIBRO: carpeta assets/Images/ -> assets/Images/portada.jpg -->
+                            <img src="assets/images/portada.jpg"
+                                alt="Portada de Don Quijote de la Mancha"
+                                class="favorito-img">
+                        </a>
 
-            <!-- LIBRO -->
-            <article class="card">
+                        <p>Don Quijote de la Mancha - Miguel de Cervantes</p>
+                        <span class="carrusel-pista-texto">Toca la portada para leer el libro</span>
+                    </article>
 
-                <h3>Libro favorito</h3>
+                </div>
+            </div>
 
-
-                <img 
-                src="assets/images/portada.jpg"
-                alt="Portada Don Quijote de la Mancha"
-                class="favorito-img">
-
-
-                <p>
-                    Don Quijote de la Mancha - Miguel de Cervantes
-                </p>
-
-
-            </article>
-
+            <button class="carrusel-btn carrusel-next" type="button" aria-label="Siguiente">&#10095;</button>
 
         </div>
+
+        <!-- Los puntos se generan solos con el script -->
+        <div class="carrusel-puntos" role="tablist" aria-label="Elegir favorito"></div>
 
     </div>
 
 </section>
-
 
     <!-- ====================== -->
     <!-- REDES SOCIALES -->
@@ -475,7 +479,58 @@
         </a>
 
     </footer>
+<script>
+    (function () {
+        const carrusel = document.querySelector('.carrusel');
+        const pista = carrusel.querySelector('.carrusel-pista');
+        const slides = carrusel.querySelectorAll('.carrusel-slide');
+        const btnPrev = carrusel.querySelector('.carrusel-prev');
+        const btnNext = carrusel.querySelector('.carrusel-next');
+        const contPuntos = document.querySelector('.carrusel-puntos');
+        let actual = 0;
 
+        slides.forEach(function (_, i) {
+            const punto = document.createElement('button');
+            punto.type = 'button';
+            punto.setAttribute('aria-label', 'Ir al favorito ' + (i + 1));
+            punto.addEventListener('click', function () { ir(i); });
+            contPuntos.appendChild(punto);
+        });
+        const puntos = contPuntos.querySelectorAll('button');
+
+        function ir(i) {
+            actual = (i + slides.length) % slides.length;
+            pista.style.transform = 'translateX(-' + (actual * 100) + '%)';
+            puntos.forEach(function (p, n) {
+                p.classList.toggle('activo', n === actual);
+            });
+        }
+
+        btnPrev.addEventListener('click', function () { ir(actual - 1); });
+        btnNext.addEventListener('click', function () { ir(actual + 1); });
+
+        // Flechas del teclado
+        carrusel.setAttribute('tabindex', '0');
+        carrusel.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowLeft') ir(actual - 1);
+            if (e.key === 'ArrowRight') ir(actual + 1);
+        });
+
+        // Deslizar con el dedo en celular
+        let inicioX = null;
+        carrusel.addEventListener('touchstart', function (e) {
+            inicioX = e.touches[0].clientX;
+        }, { passive: true });
+        carrusel.addEventListener('touchend', function (e) {
+            if (inicioX === null) return;
+            const dif = e.changedTouches[0].clientX - inicioX;
+            if (Math.abs(dif) > 50) ir(dif < 0 ? actual + 1 : actual - 1);
+            inicioX = null;
+        });
+
+        ir(0);
+    })();
+</script>
 </body>
 </html>
 

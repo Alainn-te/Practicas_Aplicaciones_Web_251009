@@ -545,7 +545,124 @@ footer a {
     }
 
 }
+/* ================= CARRUSEL DE FAVORITOS ================= */
 
+.carrusel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 560px;
+    margin: auto;
+}
+
+.carrusel:focus-visible {
+    outline: 3px solid #7dd3fc;
+    outline-offset: 6px;
+    border-radius: 20px;
+}
+
+.carrusel-ventana {
+    flex: 1;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .12);
+}
+
+.carrusel-pista {
+    display: flex;
+    transition: transform .5s ease;
+}
+
+.carrusel-slide {
+    flex: 0 0 100%;
+    padding: 30px;
+    background: white;
+    color: #222;
+    text-align: center;
+}
+
+.carrusel-slide h3 {
+    margin-bottom: 15px;
+}
+
+.carrusel-enlace {
+    display: block;
+}
+
+.carrusel-enlace .favorito-img {
+    height: 380px;
+    transition: .3s;
+}
+
+.carrusel-enlace:hover .favorito-img {
+    transform: scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, .3);
+}
+
+.carrusel-slide p {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.carrusel-pista-texto {
+    display: block;
+    margin-top: 6px;
+    font-size: .9rem;
+    color: #64748b;
+}
+
+.carrusel-btn {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: #111827;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.carrusel-btn:hover {
+    background: tomato;
+    transform: scale(1.1);
+}
+
+.carrusel-puntos {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.carrusel-puntos button {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #94a3b8;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.carrusel-puntos button.activo {
+    background: #111827;
+    transform: scale(1.3);
+}
+
+@media (max-width: 600px) {
+    .carrusel { gap: 6px; }
+    .carrusel-btn { width: 36px; height: 36px; }
+    .carrusel-slide { padding: 20px; }
+    .carrusel-enlace .favorito-img { height: 300px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carrusel-pista { transition: none; }
+}
 
 
 
