@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MecaGest: Formulario de Registro de nuevos usuarios - 251009</title>
+</head>
+<body>
+   <header>
+    <h1> MecaGest</h1>
+    <h2>Registro de Nuevos Usuarios</h2>
+    <p>Complete los campos para solicitar una cuenta en el sistema </p>
+   </header>
+   <main>
+    <form action="" method="">
+        <fieldset>
+            <legend>Datos personales </legend>
+       <label for="nombre">Nombre: </label>
+       <input type="text" id="nombre" placeholder="Felix Alain" required><br>
+<br>
+       <label for="ApPaterno">Apellido Paterno: </label>
+       <input type="text" id="ApPaterno" placeholder="Tesillos" required><br>
+<br>
+       <label for="ApMaterno">Apellido Materno: </label>
+       <input type="text" id="ApMaterno" placeholder="Torres" required><br>
+<br>
+       <label for="genero">Genero:</label><br>
+       <select id="genero">
+        <option value="F">Femenino</option>
+        <option value="M">Masculino</option>
+        <option value="X">Prefiero no decirlo</option>
+       </select>
+       <br>
+       <label for="fechaNacimiento">Fecha de nacimiento: </label>
+       <input type="date" id="fechaNacimiento" placeholder="" required><br>
+       </fieldset>
+<br>
+       <fieldset>
+        <legend> Datos de contacto</legend>
+       <label for="email">Correo Electronico: </label>
+       <input type="text" id="email" placeholder="Felix@ejemplo.com" required><br>
+<br>
+       <label for="numeroTel">Numero Telefonico: </label>
+       <input type="text" id="numeroTel" placeholder="ej.(+52) 755 62 21" required><br>
+       <br>
+       <label for="horarioContacto">Favor de contactar en el horario</label>
+       <input type="time" id="horarioContactoInicio" placeholder="09:00"> a
+       <input type="time" id="horarioContactoFin" placeholder="18:00">
+        </fieldset>
+        <fieldset>
+            <legend>Datos de acceso</legend>
+        <label for="usuario">Usuario: </label>
+       <input type="text" id="usuario" placeholder="felixAla" required><br>
+       <br>
+       <label for="contraseña">Contraseña: </label>
+       <input type="password" id="contraseña" placeholder="********" required><br>
+       <br>
+       <label for="confirmarContrasena">Confirmar Contraseña: </label>
+       <input type="password" id="confirmarContrasena" placeholder="******" required><br>
+
+        </fieldset>
+        <fieldset>
+            <legend>Datos de Ubicacion</legend>
+        <label for="direccion">Direccion: </label>
+       <input type="text" id="direccion" placeholder="calle,numero,colonia,ciudad,estado,codigo postal" required><br>
+       <br>
+       <label for="pais">Pais: </label>
+       <input type="text" id="pais" placeholder="Mexico" required><br>
+       <br>
+       <label for="estado">Estado: </label>
+       <input type="text" id="estado" placeholder="Puebla" required><br>
+       <br>
+       <label for="ciudad">Ciudad: </label>
+       <input type="text" id="ciudad" placeholder="Puebla" required><br>
+       <br>
+       <label for="codigoPostal">Codigo postal: </label>
+       <input type="text" id="codigoPostal" placeholder="78502" required><br>
+        </fieldset>
+        <input type="submit" value="Enviar Solicitud">
+    </form>
+   </main>
+</body>
+</html>
