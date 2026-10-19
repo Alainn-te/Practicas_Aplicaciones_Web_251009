@@ -3,81 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MecaGest: Formulario de Registro de nuevos usuarios - 251009</title>
+    <title>MecaGest: Formulario de Registro de Nuevos Usuarios</title>
 </head>
 <body>
-   <header>
-    <h1> MecaGest</h1>
-    <h2>Registro de Nuevos Usuarios</h2>
-    <p>Complete los campos para solicitar una cuenta en el sistema </p>
-   </header>
-   <main>
-    <form action="" method="">
-        <fieldset>
-            <legend>Datos personales </legend>
-       <label for="nombre">Nombre: </label>
-       <input type="text" id="nombre" placeholder="Felix Alain" required><br>
-<br>
-       <label for="ApPaterno">Apellido Paterno: </label>
-       <input type="text" id="ApPaterno" placeholder="Tesillos" required><br>
-<br>
-       <label for="ApMaterno">Apellido Materno: </label>
-       <input type="text" id="ApMaterno" placeholder="Torres" required><br>
-<br>
-       <label for="genero">Genero:</label><br>
-       <select id="genero">
-        <option value="F">Femenino</option>
-        <option value="M">Masculino</option>
-        <option value="X">Prefiero no decirlo</option>
-       </select>
-       <br>
-       <label for="fechaNacimiento">Fecha de nacimiento: </label>
-       <input type="date" id="fechaNacimiento" placeholder="" required><br>
-       </fieldset>
-<br>
-       <fieldset>
-        <legend> Datos de contacto</legend>
-       <label for="email">Correo Electronico: </label>
-       <input type="text" id="email" placeholder="Felix@ejemplo.com" required><br>
-<br>
-       <label for="numeroTel">Numero Telefonico: </label>
-       <input type="text" id="numeroTel" placeholder="ej.(+52) 755 62 21" required><br>
-       <br>
-       <label for="horarioContacto">Favor de contactar en el horario</label>
-       <input type="time" id="horarioContactoInicio" placeholder="09:00"> a
-       <input type="time" id="horarioContactoFin" placeholder="18:00">
-        </fieldset>
-        <fieldset>
-            <legend>Datos de acceso</legend>
-        <label for="usuario">Usuario: </label>
-       <input type="text" id="usuario" placeholder="felixAla" required><br>
-       <br>
-       <label for="contraseña">Contraseña: </label>
-       <input type="password" id="contraseña" placeholder="********" required><br>
-       <br>
-       <label for="confirmarContrasena">Confirmar Contraseña: </label>
-       <input type="password" id="confirmarContrasena" placeholder="******" required><br>
+    <header>
+        <h1>MecaGest</h1>
+        <h2>Registro de Nuevos Usuarios</h2>
+        <p>Complete los campos para solicitar una cuenta en el sistema.</p>
+    </header>
 
-        </fieldset>
-        <fieldset>
-            <legend>Datos de Ubicacion</legend>
-        <label for="direccion">Direccion: </label>
-       <input type="text" id="direccion" placeholder="calle,numero,colonia,ciudad,estado,codigo postal" required><br>
-       <br>
-       <label for="pais">Pais: </label>
-       <input type="text" id="pais" placeholder="Mexico" required><br>
-       <br>
-       <label for="estado">Estado: </label>
-       <input type="text" id="estado" placeholder="Puebla" required><br>
-       <br>
-       <label for="ciudad">Ciudad: </label>
-       <input type="text" id="ciudad" placeholder="Puebla" required><br>
-       <br>
-       <label for="codigoPostal">Codigo postal: </label>
-       <input type="text" id="codigoPostal" placeholder="78502" required><br>
-        </fieldset>
-        <input type="submit" value="Enviar Solicitud">
-    </form>
-   </main>
+    <main>
+        <form action="" method="post">
+            <fieldset>
+                <legend>Datos Personales</legend>
+                <label for="tituloCortesia">Título de Cortesía:</label>
+                <select id="tituloCortesia">
+                    <option>Sr.</option>
+                    <option>Sra.</option>
+                    <option>Stra.</option>
+                    <option>Ing.</option>
+                    <option>Lic.</option>
+                    <option>Mtr.</option>
+                    <option>Ninguno de los anteriores</option>
+                </select>
+                <br>
+                <br>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" placeholder="Felix Alain" required>
+                <br>
+                <br>
+                <label for="apPaterno">Apellido Paterno:</label>
+                <input type="text" id="apPaterno" placeholder="Tesillos">
+                <br>
+                <br>
+            <label for="apMaterno">Apellido Materno:</label>
+            <input type="text" id="apMaterno" placeholder="Torres">
+            <br>
+            <br>
+            <label for="genero">Género:</label>
+            <select id="genero">
+                <option value="F">Femenino</option>
+                <option value="M">Masculino</option>
+                <option value="X">Prefiero no decirlo</option>
+            </select>
+            <br>
+            <br>
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento">
+            </fieldset>
+
+            <fieldset>
+                <legend>Datos de Contacto</legend>
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" placeholder="tesi78@gmail.com">
+                <br>
+                <br>
+                <label for="numeroTelefonico">Número Telefónico:</label>
+                <input type="tel" id="numeroTelefonico" placeholder="ej. 7785941">
+                <br>
+                <br>
+                <label for="horarioContacto">Favor de contactar en el horario:</label>
+                <input type="time" id="horarioContactoInicio" placeholder="09:00">
+                <input type="time" id="horarioContactoFin" placeholder="18:00">
+            </fieldset>
+
+            <fieldset>
+                <legend>Datos de Acceso</legend>
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" placeholder="jimena692" required>
+                <br>
+                <br>
+                <label for="contraseña">Contraseña:</label>
+                <input type="password" id="contraseña" placeholder="******" required>
+                <br>
+                <br>
+                <label for="confirmarContraseña">Confirmar Contraseña:</label>
+                <input type="password" id="confirmarContraseña" placeholder="******" required>
+            </fieldset>
+
+            <fieldset>
+                <legend>Datos de Ubicación</legend>
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" placeholder="Calle, Número, Colonia, Ciudad, Estado, Código Postal">
+                <br>
+                <br>
+                <label for="pais">País:</label>
+                <input type="text" id="pais" placeholder="México">
+                <br>
+                <br>
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" placeholder="Ciudad de México">
+                <br>
+                <br>
+                <label for="ciudad">Ciudad:</label>
+                <input type="text" id="ciudad" placeholder="Ciudad de México">
+                <br>
+                <br>
+                <label for="codigoPostal">Código Postal:</label>
+                <input type="text" id="codigoPostal" placeholder="01234">
+            </fieldset>
+            <br>
+            <input type="checkbox" value="validado"> Acepto términos y condiciones del uso de la plataforma MecaGest.
+            <br>
+            <br>
+            <input type="submit" value="Enviar Solicitud">
+            <input type="reset" value="Limpiar Formularios">
+        
+
+        </form>
+
+
+        <br>
+        <br>
+        <form> <!--Elementos que usaremos mas adelante-->
+            <fieldset>
+                <legend>Visualización de Citas por Mes:</legend>
+                <label for="mesCitas">Por favor elige un mes:</label>
+                <input type="month" id="mesCitas">
+                <button id="verCitas">Ver Citas</button>
+                <br>
+                <br>
+                <h4>Las citas programadas para el mes elegido son:</h4>
+                <br>
+                <br>
+                <table style="border: 1px solid black">
+                    <tr>
+                        <th style="border: 1px solid black">No.</th>
+                        <th style="border: 1px solid black">Nombre</th>
+                        <th style="border: 1px solid black">Descripción</th>
+                        <th style="border: 1px solid black">Fecha Programada</th>
+                        <th style="border: 1px solid black">Estatus Actual</th>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">1.</td>
+                        <td style="border: 1px solid black">Cita de entrega de unidad reparada con el cliente: Mauricio Mejía, Unidad: Volkswagen, Jetta 2020</td>
+                        <td style="border: 1px solid black">Se realizó un cambio de bujías, la unidad esta lista para entrega.</td>
+                        <td style="border: 1px solid black">10 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Atendida</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">2.</td>
+                        <td style="border: 1px solid black">Cita de valoración con el cliente: Felix Alain, Unidad: Renault, Duster 2014</td>
+                        <td style="border: 1px solid black">El cliente solicita una revisión del cuerpo de acelaración de la unidad para posible mantenimiento correctivo.</td>
+                        <td style="border: 1px solid black">26 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Programada</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">3.</td>
+                        <td style="border: 1px solid black">Cita de revisión con el cliente: Mauricio Mejía, Unidad: Volkswagen, Jetta 2020</td>
+                        <td style="border: 1px solid black">A la unidad se le hicieron cambios de bujías, pero el cliente reporta un sonido extraño.</td>
+                        <td style="border: 1px solid black">17 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Programada</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">4.</td>
+                        <td style="border: 1px solid black">Cita de valoración con la cliente: Alejandra Romero, Unidad: Toyota, Hilux 2012</td>
+                        <td style="border: 1px solid black">El cliente solicita una revisión del cuerpo de acelaración de la unidad para posible mantenimiento correctivo.</td>
+                        <td style="border: 1px solid black">16 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Cancelada</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">5.</td>
+                        <td style="border: 1px solid black">Cita de valoración con la cliente: Alejandra Romero, Unidad: Toyota, Hilux 2012</td>
+                        <td style="border: 1px solid black">El cliente solicita una revisión del cuerpo de acelaración de la unidad para posible mantenimiento correctivo.</td>
+                        <td style="border: 1px solid black">20 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Reprogramada</td>
+                    </tr>
+                </table>
+            </fieldset>
+
+            <fieldset>
+                <legend>Configuraciones de la interfaz:</legend>
+                <label for="fontColor">Color de fuente:</label>
+                <input type="color" id="fontColor">
+                <br>
+                <br>
+                <label for="backgroundColor">Color de fondo:</label>
+                <input type="color" id="backgroundColor" value="#CCC">
+            </fieldset>
+
+
+        </form>
+    </main>
+    
 </body>
 </html>
