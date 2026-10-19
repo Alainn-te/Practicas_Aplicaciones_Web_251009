@@ -189,9 +189,12 @@
             <fieldset>
               <legend>Configuracion de mi cuenta/perfil: </legend>
               <label for="userPhoto">Foto de perfil:</label>
-              <input type="image" id="userPhoto" id="userPhoto" src="assets/images/next.gif" style="height: 70px; width: 100px;">
+              <input type="file" id="userPhoto" accept=".pdf">
+             
               <br>
               <input type="hidden" id="userId" value="251009">
+              <br>
+               <input type="image" id="userPhoto" id="userPhoto" src="assets/images/next.gif" style="height: 70px; width: 100px;">
             </fieldset>
             <fieldset>
               <legend> Datos fiscales:</legend>
@@ -200,7 +203,7 @@
               <br>
               <label for="fiscalSituacion">Constancia de situacion fiscal: </label>
               <input type="file" id="fiscalSituacion" accept=".pdf">
-              <input type="text" id="userID" value="251009">
+              <input type="hidden" id="userID" value="251009">
 
             </fieldset>
        <fieldset>
