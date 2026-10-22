@@ -4,16 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MecaGest: Formulario de Registro de Nuevos Usuarios</title>
+    <link rel="stylesheet" href="styless/stylemeca.css">
 </head>
 <body>
+
+    <!-- Controles del menú (solo CSS, sin JavaScript) -->
+    <input type="radio" name="menu" id="tab-registro" class="tab-radio" checked>
+    <input type="radio" name="menu" id="tab-citas" class="tab-radio">
+    <input type="radio" name="menu" id="tab-agendar" class="tab-radio">
+    <input type="radio" name="menu" id="tab-herramientas" class="tab-radio">
+    <input type="radio" name="menu" id="tab-cuenta" class="tab-radio">
+    <input type="radio" name="menu" id="tab-ajustes" class="tab-radio">
+
     <header>
         <h1>MecaGest</h1>
         <h2>Registro de Nuevos Usuarios</h2>
         <p>Complete los campos para solicitar una cuenta en el sistema.</p>
     </header>
 
+    <nav class="menu" aria-label="Menú principal">
+        <div class="menu-inner">
+            <label for="tab-registro" class="menu-btn">📝 Registro</label>
+            <label for="tab-citas" class="menu-btn">📅 Mis Citas</label>
+            <label for="tab-agendar" class="menu-btn">🕒 Agendar Cita</label>
+            <label for="tab-herramientas" class="menu-btn">🔧 Herramientas</label>
+            <label for="tab-cuenta" class="menu-btn">👤 Mi Cuenta</label>
+            <label for="tab-ajustes" class="menu-btn">⚙️ Ajustes</label>
+        </div>
+    </nav>
+
     <main>
-        <form action="" method="post">
+        <form action="" method="post" id="registro" class="panel">
             <fieldset>
                 <legend>Datos Personales</legend>
                 <label for="tituloCortesia">Título de Cortesía:</label>
@@ -65,12 +86,25 @@
                 <label for="horarioContacto">Favor de contactar en el horario:</label>
                 <input type="time" id="horarioContactoInicio" placeholder="09:00">
                 <input type="time" id="horarioContactoFin" placeholder="18:00">
+                <br>      
+                <h4> Redes Sociales </h4>
+                <input type="checkbox" id="socialNetworks">
+                <label for="urlFacebook">Facebook</label>
+                <input type="url" placeholder="http://www.facebook.com/UserName">
+                <br>
+                <input type="checkbox" id="socialNetworks">
+                <label for="urlFacebook">Linkedn</label>
+                <input type="url" placeholder="http://www.Linnkedn.com/UserName">
+                <br>
+                <input type="checkbox" id="socialNetworks">
+                <label for="urlFacebook">Instagram</label>
+                <input type="url" placeholder="http://www.Instragram.com/UserName">
             </fieldset>
 
             <fieldset>
                 <legend>Datos de Acceso</legend>
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" placeholder="jimena692" required>
+                <input type="text" id="usuario" placeholder="FelixAlain" required>
                 <br>
                 <br>
                 <label for="contraseña">Contraseña:</label>
@@ -116,11 +150,23 @@
         <br>
         <br>
         <form> <!--Elementos que usaremos mas adelante-->
-            <fieldset>
-                <legend>Visualización de Citas por Mes:</legend>
-                <label for="mesCitas">Por favor elige un mes:</label>
-                <input type="month" id="mesCitas">
-                <button id="verCitas">Ver Citas</button>
+
+        <div id="citas" class="panel">
+<fieldset>
+    <legend>Visualización de Citas:</legend>
+    
+    <div style="margin-bottom: 10px;">
+        <label for="mesCitas">Por favor elige un mes:</label>
+        <input type="month" id="mesCitas">
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label for="semanaCitas">O por favor elige una semana:</label>
+        <input type="week" id="semanaCitas">
+    </div>
+
+    <button id="verCitas">Ver Citas</button>
+</fieldset>
                 <br>
                 <br>
                 <h4>Las citas programadas para el mes elegido son:</h4>
@@ -176,16 +222,27 @@
                     </tr>
                 </table>
             </fieldset>
+        </div>
 
+        <div id="ajustes" class="panel">
             <fieldset>
-                <legend>Configuraciones de la interfaz:</legend>
-                <label for="fontColor">Color de fuente:</label>
-                <input type="color" id="fontColor">
-                <br>
-                <br>
-                <label for="backgroundColor">Color de fondo:</label>
-                <input type="color" id="backgroundColor" value="#CCC">
-            </fieldset>
+    <legend>Configuraciones de la interfaz y sonido:</legend>
+    
+    <label for="fontColor">Color de fuente:</label>
+    <input type="color" id="fontColor">
+    <br>
+    <br>
+    <label for="backgroundColor">Color de fondo:</label>
+    <input type="color" id="backgroundColor" value="#CCC">
+    <br>
+    <br>
+    <label for="volumenControl">Volumen de sonido:</label>
+    <input type="range" id="volumenControl" min="0" max="100" value="50">
+    <button type="button" id="btnSilenciar">Silenciar</button>
+</fieldset>
+        </div>
+
+        <div id="cuenta" class="panel">
             <fieldset>
               <legend>Configuracion de mi cuenta/perfil: </legend>
               <label for="userPhoto">Foto de perfil:</label>
@@ -206,17 +263,37 @@
               <input type="hidden" id="userID" value="251009">
 
             </fieldset>
+        </div>
+
+        <div id="agendar" class="panel">
        <fieldset>
               <legend>Solicitud de cita: </legend>
               <label for="dateAppoiment">Fecha de la cita:</label>
               <input type="datetime-local" id="dateAppoiment">
               <br>
+              <label for="locations">Elige la sucursal: </label>
+              <input list="locationsList" placeholder="Busca tu sucursal preferida..">
+              <datalist id="locationsList">
+                <option>Xicotepec, Centro</option>
+                <option>Xicotepec, Tabacal</option>
+                <option>San isidro , Tierra Negra</option>
+                <option>Necaxa, Canaditas</option>
+                <option>Huauchinango, Petrolera 1</option>
+              </datalist>
               <label for="descriptionText">Descripcion de la cita: </label>
               <textarea id="descriptionText"></textarea>
        </fieldset>
+        </div>
+
+        <div id="herramientas" class="panel">
       <fieldset>
                 <legend>Solicitud de Herramientas para servicio Mecanico: </legend>
                 <label for="toolName">Elige la pieza: </label>
+                <input type="checkbox" id="chkHerramienta" name="tipoItem" value="herramienta">
+        <label for="chkHerramienta">Herramienta</label>
+        
+        <input type="checkbox" id="chkRefaccion" name="tipoItem" value="refaccion" style="margin-left: 15px;">
+        <label for="chkRefaccion">Refacción</label>
                 <select>
                     <optgroup label="Piezas de Motor">
                         <option value="Bujía">Bujía</option>
@@ -300,6 +377,7 @@
     </tr>
   </tfoot>
 </table>
+        </div>
 
         </form>
     </main>

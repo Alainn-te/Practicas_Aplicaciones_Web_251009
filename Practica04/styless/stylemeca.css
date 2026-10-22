@@ -1,0 +1,599 @@
+/* ==========================================================
+   MecaGest – Estilos (taller mecánico, look profesional)
+   Menú por secciones 100% CSS (radio + label), sin JavaScript
+   ========================================================== */
+
+:root {
+  --dark: #151a1f;
+  --dark-2: #232b33;
+  --dark-3: #313b45;
+  --accent: #ff6b1a;
+  --accent-2: #ff9a3c;
+  --accent-dark: #d4530a;
+  --bg: #eceff2;
+  --card: #ffffff;
+  --border: #d6dce2;
+  --text: #1f272e;
+  --muted: #6b7783;
+  --radius: 14px;
+  --shadow: 0 4px 18px rgba(21, 26, 31, 0.08);
+  --shadow-lg: 0 10px 30px rgba(21, 26, 31, 0.15);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 107, 26, 0.06), transparent 40%),
+    var(--bg);
+  min-height: 100vh;
+}
+
+/* ---------- Controles ocultos del menú ---------- */
+input.tab-radio {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* ---------- Encabezado (hero) ---------- */
+header {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  padding: 3.2rem 1rem 2.6rem;
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0 12px, transparent 12px 24px),
+    radial-gradient(circle at 80% 0%, rgba(255, 107, 26, 0.35), transparent 45%),
+    linear-gradient(135deg, var(--dark), var(--dark-3));
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 14px, var(--dark) 14px 28px);
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 4px 20px rgba(255, 107, 26, 0.45);
+}
+
+header h1::before {
+  content: "⚙";
+  display: inline-block;
+  color: var(--accent);
+  margin-right: 0.4rem;
+}
+
+header h2 {
+  margin: 0.3rem 0 0.6rem;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 400;
+  color: #e4e9ed;
+}
+
+header p {
+  margin: 0;
+  color: #aab4bd;
+}
+
+/* ---------- Menú de navegación ---------- */
+.menu {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(21, 26, 31, 0.96);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.menu-inner {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0.7rem 1rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.menu .menu-btn {
+  flex: 0 0 auto;
+  display: inline-block;
+  min-width: 0;
+  margin: 0;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #cfd6dd;
+  background: var(--dark-2);
+  border: 1px solid var(--dark-3);
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: transform 0.15s, background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.menu .menu-btn:hover {
+  color: #fff;
+  background: var(--dark-3);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Botón activo */
+#tab-registro:checked ~ .menu label[for="tab-registro"],
+#tab-citas:checked ~ .menu label[for="tab-citas"],
+#tab-agendar:checked ~ .menu label[for="tab-agendar"],
+#tab-herramientas:checked ~ .menu label[for="tab-herramientas"],
+#tab-cuenta:checked ~ .menu label[for="tab-cuenta"],
+#tab-ajustes:checked ~ .menu label[for="tab-ajustes"] {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+  box-shadow: 0 6px 16px rgba(255, 107, 26, 0.45);
+}
+
+/* Foco con teclado */
+#tab-registro:focus-visible ~ .menu label[for="tab-registro"],
+#tab-citas:focus-visible ~ .menu label[for="tab-citas"],
+#tab-agendar:focus-visible ~ .menu label[for="tab-agendar"],
+#tab-herramientas:focus-visible ~ .menu label[for="tab-herramientas"],
+#tab-cuenta:focus-visible ~ .menu label[for="tab-cuenta"],
+#tab-ajustes:focus-visible ~ .menu label[for="tab-ajustes"] {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---------- Contenedor y paneles ---------- */
+main {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+form {
+  margin: 0;
+}
+
+main br {
+  line-height: 0.6;
+}
+
+/* Todas las secciones ocultas por defecto */
+.panel {
+  display: none;
+}
+
+/* Solo se muestra la sección elegida en el menú */
+#tab-registro:checked ~ main #registro,
+#tab-citas:checked ~ main #citas,
+#tab-agendar:checked ~ main #agendar,
+#tab-herramientas:checked ~ main #herramientas,
+#tab-cuenta:checked ~ main #cuenta,
+#tab-ajustes:checked ~ main #ajustes {
+  display: block;
+  animation: aparecer 0.4s ease both;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Tarjetas (fieldset) ---------- */
+fieldset {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 0 0 1.6rem;
+  padding: 1.4rem 1.6rem 1.7rem;
+  min-width: 0;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+fieldset:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+legend {
+  background: linear-gradient(135deg, var(--dark), var(--dark-3));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  box-shadow: 0 3px 10px rgba(21, 26, 31, 0.25);
+}
+
+fieldset h4 {
+  margin: 0.4rem 0 0.8rem;
+  padding-bottom: 0.3rem;
+  color: var(--accent-dark);
+  font-size: 1rem;
+  border-bottom: 2px solid rgba(255, 107, 26, 0.25);
+}
+
+#citas > h4,
+#citas h4 {
+  margin: 0.2rem 0 0.8rem;
+  color: var(--dark);
+  font-size: 1.05rem;
+}
+
+/* ---------- Etiquetas ---------- */
+label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+label[for] {
+  display: inline-block;
+  min-width: 13rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+input[type="checkbox"] + label,
+input[type="radio"] + label {
+  min-width: 0;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+/* ---------- Campos ---------- */
+input:not([type]),
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="number"],
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: #f7f9fa;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 0.55rem 0.8rem;
+  width: min(100%, 20rem);
+  vertical-align: middle;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+input[type="time"] {
+  width: 9rem;
+}
+
+input[type="number"] {
+  width: 6rem;
+}
+
+input[type="url"] {
+  width: min(100%, 22rem);
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 7rem;
+  margin-top: 0.5rem;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9aa5af;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: #b5bfc9;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 107, 26, 0.2);
+}
+
+input:required {
+  border-left: 4px solid var(--accent);
+}
+
+/* ---------- Casillas, color, rango, archivos ---------- */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--accent);
+  vertical-align: middle;
+  margin: 0 0.35rem 0 0;
+}
+
+input[type="color"] {
+  width: 3.4rem;
+  height: 2.3rem;
+  padding: 0.15rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+  width: min(100%, 14rem);
+  vertical-align: middle;
+}
+
+input[type="file"] {
+  font: inherit;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+input[type="file"]::file-selector-button {
+  font: inherit;
+  font-weight: 600;
+  background: var(--dark);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin-right: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: var(--accent);
+}
+
+input[type="image"] {
+  border-radius: 12px;
+  border: 3px solid var(--border);
+  object-fit: cover;
+  vertical-align: middle;
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Botones ---------- */
+button,
+input[type="submit"],
+input[type="reset"] {
+  font: inherit;
+  font-weight: 700;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 0.65rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+
+button,
+input[type="submit"] {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  box-shadow: 0 5px 14px rgba(255, 107, 26, 0.35);
+}
+
+button:hover,
+input[type="submit"]:hover {
+  box-shadow: 0 8px 20px rgba(255, 107, 26, 0.5);
+  transform: translateY(-2px);
+}
+
+input[type="reset"] {
+  background: transparent;
+  color: var(--dark);
+  border-color: var(--dark);
+  margin-left: 0.5rem;
+}
+
+input[type="reset"]:hover {
+  background: var(--dark);
+  color: #fff;
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="reset"]:active {
+  transform: translateY(1px);
+}
+
+button:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="reset"]:focus-visible {
+  outline: 3px solid rgba(255, 107, 26, 0.5);
+  outline-offset: 2px;
+}
+
+#btnSilenciar {
+  background: var(--dark);
+  box-shadow: none;
+  padding: 0.45rem 1.1rem;
+  margin-left: 0.5rem;
+}
+
+#btnSilenciar:hover {
+  background: var(--dark-3);
+  box-shadow: none;
+}
+
+/* ---------- Tablas ----------
+   !important porque el HTML trae estilos en línea
+   (border: 1px solid black, width: 600px) que no se modifican. */
+table {
+  display: block;
+  overflow-x: auto;
+  width: 100% !important;
+  max-width: 100%;
+  margin: 1rem 0 1.5rem !important;
+  border-collapse: collapse !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 0.75rem 0.9rem !important;
+  border: 1px solid var(--border) !important;
+  text-align: left;
+  vertical-align: top;
+}
+
+table tr:first-child th,
+thead th {
+  background: var(--dark);
+  color: #fff;
+  font-weight: 700;
+  border-color: var(--dark-3) !important;
+}
+
+thead tr:first-child th[colspan] {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  text-align: center !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+table tr:nth-child(even) td {
+  background: #f4f6f8;
+}
+
+table tr:hover td {
+  background: #fff1e6;
+}
+
+tfoot td {
+  background: var(--dark-2) !important;
+  color: #fff;
+}
+
+thead th,
+tbody td:first-child {
+  text-align: center;
+}
+
+datalist {
+  display: none;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 720px) {
+  .menu-inner {
+    justify-content: flex-start;
+    scroll-snap-type: x proximity;
+  }
+
+  .menu .menu-btn {
+    scroll-snap-align: start;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  header {
+    padding: 2.4rem 1rem 2rem;
+  }
+
+  fieldset {
+    padding: 1.1rem 1rem 1.3rem;
+  }
+
+  label[for] {
+    display: block;
+    min-width: 0;
+    margin: 0 0 0.25rem;
+  }
+
+  input[type="checkbox"] + label,
+  input[type="radio"] + label {
+    display: inline-block;
+  }
+
+  input:not([type]),
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="password"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="week"],
+  select {
+    width: 100%;
+  }
+
+  input[type="time"] {
+    width: calc(50% - 0.3rem);
+  }
+
+  input[type="submit"],
+  input[type="reset"] {
+    width: 100%;
+    margin: 0.5rem 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
