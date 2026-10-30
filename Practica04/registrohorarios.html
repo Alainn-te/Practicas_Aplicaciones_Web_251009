@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MecaGest: Formulario de Registro de Nuevos Usuarios</title>
     <link rel="stylesheet" href="styless/stylemeca.css">
+    <script src="registroscript.js" defer>
+     </script>
 </head>
 <body>
 
@@ -71,6 +73,10 @@
             <br>
             <label for="fechaNacimiento">Fecha de Nacimiento:</label>
             <input type="date" id="fechaNacimiento">
+            <br>
+            <br>
+            <label for="edad">Edad:</label>
+            <input type="text" id="edad" placeholder="Automática" readonly>
             </fieldset>
 
             <fieldset>
@@ -267,21 +273,21 @@
 
         <div id="agendar" class="panel">
        <fieldset>
-              <legend>Solicitud de cita: </legend>
-              <label for="dateAppoiment">Fecha de la cita:</label>
-              <input type="datetime-local" id="dateAppoiment">
-              <br>
-              <label for="locations">Elige la sucursal: </label>
-              <input list="locationsList" placeholder="Busca tu sucursal preferida..">
-              <datalist id="locationsList">
+             <legend>Solicitud de cita: </legend>
+             <label for="dateAppoiment">Fecha de la cita:</label>
+             <input type="datetime-local" id="dateAppoiment">
+             <br>
+             <label for="locations">Elige la sucursal: </label>
+             <input list="locationsList" placeholder="Busca tu sucursal preferida..">
+             <datalist id="locationsList">
                 <option>Xicotepec, Centro</option>
                 <option>Xicotepec, Tabacal</option>
                 <option>San isidro , Tierra Negra</option>
                 <option>Necaxa, Canaditas</option>
                 <option>Huauchinango, Petrolera 1</option>
-              </datalist>
-              <label for="descriptionText">Descripcion de la cita: </label>
-              <textarea id="descriptionText"></textarea>
+             </datalist>
+             <label for="descriptionText">Descripcion de la cita: </label>
+             <textarea id="descriptionText"></textarea>
        </fieldset>
         </div>
 
@@ -327,7 +333,7 @@
                 <br>
             </fieldset>
             <table border="1" style="border-collapse: collapse; width: 600px; margin: 0; text-align: center;">
-  <thead>
+ <thead>
     <tr>
       <th colspan="5">Herramientas para la orden de servicio</th>
     </tr>
@@ -338,8 +344,8 @@
       <th>Cantidad</th>
       <th>Unidad</th>
     </tr>
-  </thead>
-  <tbody>
+ </thead>
+ <tbody>
     <tr>
       <td>1</td>
       <td>Llave combinada</td>
@@ -368,14 +374,14 @@
       <td>3</td>
       <td>Juegos</td>
     </tr>
-  </tbody>
-  <tfoot>
+ </tbody>
+ <tfoot>
     <tr>
       <td colspan="3" style="text-align: right; font-weight: bold;">Total de unidades</td>
       <td>10</td>
       <td>-</td>
     </tr>
-  </tfoot>
+ </tfoot>
 </table>
         </div>
 
