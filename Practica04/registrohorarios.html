@@ -65,8 +65,8 @@
             <br>
             <label for="genero">Género:</label>
             <select id="genero">
-                <option value="F">Masculino</option>
-                <option value="M">Femenino</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
                 <option value="X">Prefiero no decirlo</option>
             </select>
             <br>
@@ -89,22 +89,22 @@
                 <input type="tel" id="numeroTelefonico" placeholder="ej. 7785941">
                 <br>
                 <br>
-                <label for="horarioContacto">Favor de contactar en el horario:</label>
+                <label for="horarioContactoInicio">Favor de contactar en el horario:</label>
                 <input type="time" id="horarioContactoInicio" placeholder="09:00">
                 <input type="time" id="horarioContactoFin" placeholder="18:00">
                 <br>      
                 <h4> Redes Sociales </h4>
-                <input type="checkbox" id="socialNetworks">
-                <label for="urlFacebook">Facebook</label>
-                <input type="url" placeholder="http://www.facebook.com/UserName">
+                <input type="checkbox" id="chkFacebook">
+                <label for="chkFacebook">Facebook</label>
+                <input type="url" id="urlFacebook" placeholder="http://www.facebook.com/UserName">
                 <br>
-                <input type="checkbox" id="socialNetworks">
-                <label for="urlFacebook">Linkedn</label>
-                <input type="url" placeholder="http://www.Linnkedn.com/UserName">
+                <input type="checkbox" id="chkLinkedin">
+                <label for="chkLinkedin">LinkedIn</label>
+                <input type="url" id="urlLinkedin" placeholder="http://www.linkedin.com/UserName">
                 <br>
-                <input type="checkbox" id="socialNetworks">
-                <label for="urlFacebook">Instagram</label>
-                <input type="url" placeholder="http://www.Instragram.com/UserName">
+                <input type="checkbox" id="chkInstagram">
+                <label for="chkInstagram">Instagram</label>
+                <input type="url" id="urlInstagram" placeholder="http://www.instagram.com/UserName">
             </fieldset>
 
             <fieldset>
@@ -239,7 +239,7 @@
     <br>
     <br>
     <label for="backgroundColor">Color de fondo:</label>
-    <input type="color" id="backgroundColor" value="#CCC">
+    <input type="color" id="backgroundColor" value="#cccccc">
     <br>
     <br>
     <label for="volumenControl">Volumen de sonido:</label>
@@ -252,16 +252,16 @@
             <fieldset>
               <legend>Configuracion de mi cuenta/perfil: </legend>
               <label for="userPhoto">Foto de perfil:</label>
-              <input type="file" id="userPhoto" accept=".pdf">
+              <input type="file" id="userPhoto" accept="image/*">
              
               <br>
               <input type="hidden" id="userId" value="251009">
               <br>
-               <input type="image" id="userPhoto" id="userPhoto" src="assets/images/next.gif" style="height: 70px; width: 100px;">
+               <input type="image" id="userPhotoPreview" src="assets/images/next.gif" style="height: 70px; width: 100px;">
             </fieldset>
             <fieldset>
               <legend> Datos fiscales:</legend>
-              <label for="rfc">Registro Federal de causantes (RFC):</label>
+              <label for="rfc">Registro Federal de Contribuyentes (RFC):</label>
               <input type="text" id="rfc" maxlength="13" placeholder="RaHL000000X">
               <br>
               <label for="fiscalSituacion">Constancia de situacion fiscal: </label>
@@ -278,7 +278,7 @@
              <input type="datetime-local" id="dateAppoiment">
              <br>
              <label for="locations">Elige la sucursal: </label>
-             <input list="locationsList" placeholder="Busca tu sucursal preferida..">
+             <input list="locationsList" id="locations" placeholder="Busca tu sucursal preferida..">
              <datalist id="locationsList">
                 <option>Xicotepec, Centro</option>
                 <option>Xicotepec, Tabacal</option>
@@ -288,6 +288,8 @@
              </datalist>
              <label for="descriptionText">Descripcion de la cita: </label>
              <textarea id="descriptionText"></textarea>
+             <br>
+             <button type="button" id="btnAgendarCita">Agendar cita</button>
        </fieldset>
         </div>
 
@@ -300,7 +302,7 @@
         
         <input type="checkbox" id="chkRefaccion" name="tipoItem" value="refaccion" style="margin-left: 15px;">
         <label for="chkRefaccion">Refacción</label>
-                <select>
+                <select id="toolName">
                     <optgroup label="Piezas de Motor">
                         <option value="Bujía">Bujía</option>
                         <option value="filtro_aceite">Filtro de aceite</option>
@@ -324,7 +326,7 @@
                         <option value="llave_dinamometrica">Llave Dinamometrica</option>
                         <option value="extractor_poleas">Extractor de Poleas</option>
                         <option value="compresor_resortes">Compresor de Resortes</option>
-                        <option value="scanner_pbd2">Escáner automotriz OBO-II</option>
+                        <option value="scanner_obd2">Escáner automotriz OBD-II</option>
                     </optgroup>
                 </select>
                 <label for="toolQuantity">Cantidad: </label>
