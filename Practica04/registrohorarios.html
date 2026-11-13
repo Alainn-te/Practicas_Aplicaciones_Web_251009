@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MecaGest: Formulario de Registro de Nuevos Usuarios</title>
+    <link rel="stylesheet" href="styless/stylemeca.css">
+    <script src="domicilios.js" defer></script>
+    <script src="registroscript.js" defer>
+     </script>
+</head>
+<body>
+
+    <!-- Controles del menú (solo CSS, sin JavaScript) -->
+    <input type="radio" name="menu" id="tab-registro" class="tab-radio" checked>
+    <input type="radio" name="menu" id="tab-citas" class="tab-radio">
+    <input type="radio" name="menu" id="tab-agendar" class="tab-radio">
+    <input type="radio" name="menu" id="tab-herramientas" class="tab-radio">
+    <input type="radio" name="menu" id="tab-cuenta" class="tab-radio">
+    <input type="radio" name="menu" id="tab-ajustes" class="tab-radio">
+
+    <header>
+        <h1>MecaGest</h1>
+        <h2>Registro de Nuevos Usuarios</h2>
+        <p>Complete los campos para solicitar una cuenta en el sistema.</p>
+    </header>
+
+    <nav class="menu" aria-label="Menú principal">
+        <div class="menu-inner">
+            <label for="tab-registro" class="menu-btn">📝 Registro</label>
+            <label for="tab-citas" class="menu-btn">📅 Mis Citas</label>
+            <label for="tab-agendar" class="menu-btn">🕒 Agendar Cita</label>
+            <label for="tab-herramientas" class="menu-btn">🔧 Herramientas</label>
+            <label for="tab-cuenta" class="menu-btn">👤 Mi Cuenta</label>
+            <label for="tab-ajustes" class="menu-btn">⚙️ Ajustes</label>
+        </div>
+    </nav>
+
+    <main>
+        <form action="" method="post" id="registro" class="panel">
+            <fieldset>
+                <legend>Datos Personales</legend>
+                <label for="tituloCortesia">Título de Cortesía:</label>
+                <select id="tituloCortesia">
+                    <option>Sr.</option>
+                    <option>Sra.</option>
+                    <option>Stra.</option>
+                    <option>Ing.</option>
+                    <option>Lic.</option>
+                    <option>Mtr.</option>
+                    <option>Ninguno de los anteriores</option>
+                </select>
+                <br>
+                <br>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" placeholder="Felix Alain" required>
+                <br>
+                <br>
+                <label for="apPaterno">Apellido Paterno:</label>
+                <input type="text" id="apPaterno" placeholder="Tesillos">
+                <br>
+                <br>
+            <label for="apMaterno">Apellido Materno:</label>
+            <input type="text" id="apMaterno" placeholder="Torres">
+            <br>
+            <br>
+            <label for="genero">Género:</label>
+            <select id="genero">
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+                <option value="X">Prefiero no decirlo</option>
+            </select>
+            <br>
+            <br>
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento">
+            <br>
+            <br>
+            <label for="edad">Edad:</label>
+            <input type="text" id="edad" placeholder="Automática" readonly>
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente1" class="btn-siguiente">Siguiente</button>
+            </fieldset>
+
+            <fieldset>
+                <legend>Datos de Contacto</legend>
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" placeholder="tesi78@gmail.com">
+                <br>
+                <br>
+                <label for="numeroTelefonico">Número Telefónico:</label>
+                <input type="tel" id="numeroTelefonico" placeholder="ej. 7785941">
+                <br>
+                <br>
+                <label for="horarioContactoInicio">Favor de contactar en el horario:</label>
+                <input type="time" id="horarioContactoInicio" placeholder="09:00">
+                <input type="time" id="horarioContactoFin" placeholder="18:00">
+                <br>      
+                <h4> Redes Sociales </h4>
+                <input type="checkbox" id="chkFacebook">
+                <label for="chkFacebook">Facebook</label>
+                <input type="url" id="urlFacebook" placeholder="http://www.facebook.com/UserName">
+                <br>
+                <input type="checkbox" id="chkLinkedin">
+                <label for="chkLinkedin">LinkedIn</label>
+                <input type="url" id="urlLinkedin" placeholder="http://www.linkedin.com/UserName">
+                <br>
+                <input type="checkbox" id="chkWhatsapp">
+                <label for="chkWhatsapp">WhatsApp</label>
+                <input type="file" id="qrWhatsapp" accept="image/*">
+                <br>
+                <small id="ayudaQrWhatsapp">Solo se permiten imágenes (JPG, PNG, WEBP): sube el código QR de tu WhatsApp.</small>
+                <br>
+                <img id="previewQrWhatsapp" alt="Vista previa del código QR de WhatsApp" hidden>
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente2" class="btn-siguiente">Siguiente</button>
+            </fieldset>
+
+            <fieldset>
+                <legend>Datos de Acceso</legend>
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" placeholder="FelixAlain" required>
+                <br>
+                <br>
+                <label for="contraseña">Contraseña:</label>
+                <input type="password" id="contraseña" placeholder="******" required>
+                <br>
+                <br>
+                <label for="confirmarContraseña">Confirmar Contraseña:</label>
+                <input type="password" id="confirmarContraseña" placeholder="******" required>
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente3" class="btn-siguiente">Siguiente</button>
+            </fieldset>
+
+            <fieldset>
+                <legend>Datos de Ubicación</legend>
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" placeholder="Calle, Número, Colonia, Ciudad, Estado, Código Postal">
+                <br>
+                <br>
+                <label for="pais">País:</label>
+                <input type="text" id="pais" placeholder="México">
+                <br>
+                <br>
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" placeholder="Ciudad de México">
+                <br>
+                <br>
+                <label for="ciudad">Ciudad:</label>
+                <input type="text" id="ciudad" placeholder="Ciudad de México">
+                <br>
+                <br>
+                <label for="codigoPostal">Código Postal:</label>
+                <input type="text" id="codigoPostal" placeholder="01234">
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente4" class="btn-siguiente">Siguiente</button>
+            </fieldset>
+            <br>
+            <input type="checkbox" value="validado"> Acepto términos y condiciones del uso de la plataforma MecaGest.
+            <br>
+            <br>
+            <input type="submit" value="Enviar Solicitud">
+            <input type="reset" value="Limpiar Formularios">
+        
+
+        </form>
+
+
+        <br>
+        <br>
+        <form> <!--Elementos que usaremos mas adelante-->
+
+        <div id="citas" class="panel">
+<fieldset>
+    <legend>Visualización de Citas:</legend>
+    
+    <div style="margin-bottom: 10px;">
+        <label for="mesCitas">Por favor elige un mes:</label>
+        <input type="month" id="mesCitas">
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label for="semanaCitas">O por favor elige una semana:</label>
+        <input type="week" id="semanaCitas">
+    </div>
+
+    <button id="verCitas">Ver Citas</button>
+</fieldset>
+                <br>
+                <br>
+                <h4>Las citas programadas para el mes elegido son:</h4>
+                <br>
+                <br>
+                <table style="border: 1px solid black">
+                    <tr>
+                        <th style="border: 1px solid black">No.</th>
+                        <th style="border: 1px solid black">Nombre</th>
+                        <th style="border: 1px solid black">Descripción</th>
+                        <th style="border: 1px solid black">Fecha Programada</th>
+                        <th style="border: 1px solid black">Estatus Actual</th>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">1.</td>
+                        <td style="border: 1px solid black">Cita de entrega de unidad reparada con el cliente: Mauricio Mejía, Unidad: Volkswagen, Jetta 2020</td>
+                        <td style="border: 1px solid black">Se realizó un cambio de bujías, la unidad esta lista para entrega.</td>
+                        <td style="border: 1px solid black">10 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Atendida</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">2.</td>
+                        <td style="border: 1px solid black">Cita de valoración con el cliente: Felix Alain, Unidad: Renault, Duster 2014</td>
+                        <td style="border: 1px solid black">El cliente solicita una revisión del cuerpo de acelaración de la unidad para posible mantenimiento correctivo.</td>
+                        <td style="border: 1px solid black">26 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Programada</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">3.</td>
+                        <td style="border: 1px solid black">Cita de revisión con el cliente: Mauricio Mejía, Unidad: Volkswagen, Jetta 2020</td>
+                        <td style="border: 1px solid black">A la unidad se le hicieron cambios de bujías, pero el cliente reporta un sonido extraño.</td>
+                        <td style="border: 1px solid black">17 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Programada</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">4.</td>
+                        <td style="border: 1px solid black">Cita de valoración con la cliente: Alejandra Romero, Unidad: Toyota, Hilux 2012</td>
+                        <td style="border: 1px solid black">El cliente solicita una revisión del cuerpo de acelaración de la unidad para posible mantenimiento correctivo.</td>
+                        <td style="border: 1px solid black">16 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Cancelada</td>
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black">5.</td>
+                        <td style="border: 1px solid black">Cita de valoración con la cliente: Alejandra Romero, Unidad: Toyota, Hilux 2012</td>
+                        <td style="border: 1px solid black">El cliente solicita una revisión del cuerpo de acelaración de la unidad para posible mantenimiento correctivo.</td>
+                        <td style="border: 1px solid black">20 de Octubre de 2026</td>
+                        <td style="border: 1px solid black">Reprogramada</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+
+        <div id="ajustes" class="panel">
+            <fieldset>
+    <legend>Configuraciones de la interfaz y sonido:</legend>
+    
+    <label for="fontColor">Color de fuente:</label>
+    <input type="color" id="fontColor">
+    <br>
+    <br>
+    <label for="backgroundColor">Color de fondo:</label>
+    <input type="color" id="backgroundColor" value="#cccccc">
+    <br>
+    <br>
+    <label for="volumenControl">Volumen de sonido:</label>
+    <input type="range" id="volumenControl" min="0" max="100" value="50">
+    <button type="button" id="btnSilenciar">Silenciar</button>
+</fieldset>
+        </div>
+
+        <div id="cuenta" class="panel">
+            <fieldset>
+              <legend>Configuracion de mi cuenta/perfil: </legend>
+              <label for="userPhoto">Foto de perfil:</label>
+              <input type="file" id="userPhoto" accept="image/*">
+             
+              <br>
+              <input type="hidden" id="userId" value="251009">
+              <br>
+               <input type="image" id="userPhotoPreview" src="assets/images/next.gif" style="height: 70px; width: 100px;">
+            </fieldset>
+            <fieldset>
+              <legend> Datos fiscales:</legend>
+              <label for="rfc">Registro Federal de Contribuyentes (RFC):</label>
+              <input type="text" id="rfc" maxlength="13" placeholder="RaHL000000X">
+              <br>
+              <label for="fiscalSituacion">Constancia de situacion fiscal: </label>
+              <input type="file" id="fiscalSituacion" accept=".pdf">
+              <input type="hidden" id="userID" value="251009">
+
+            </fieldset>
+        </div>
+
+        <div id="agendar" class="panel">
+       <fieldset>
+             <legend>Solicitud de cita: </legend>
+             <label for="dateAppoiment">Fecha de la cita:</label>
+             <input type="datetime-local" id="dateAppoiment">
+             <br>
+             <label for="locations">Elige la sucursal: </label>
+             <input list="locationsList" id="locations" placeholder="Busca tu sucursal preferida..">
+             <datalist id="locationsList">
+                <option>Xicotepec, Centro</option>
+                <option>Xicotepec, Tabacal</option>
+                <option>San isidro , Tierra Negra</option>
+                <option>Necaxa, Canaditas</option>
+                <option>Huauchinango, Petrolera 1</option>
+             </datalist>
+             <label for="descriptionText">Descripcion de la cita: </label>
+             <textarea id="descriptionText"></textarea>
+             <br>
+             <button type="button" id="btnAgendarCita">Agendar cita</button>
+       </fieldset>
+        </div>
+
+        <div id="herramientas" class="panel">
+      <fieldset>
+                <legend>Solicitud de Herramientas para servicio Mecanico: </legend>
+                <label for="toolName">Elige la pieza: </label>
+                <input type="checkbox" id="chkHerramienta" name="tipoItem" value="herramienta">
+        <label for="chkHerramienta">Herramienta</label>
+        
+        <input type="checkbox" id="chkRefaccion" name="tipoItem" value="refaccion" style="margin-left: 15px;">
+        <label for="chkRefaccion">Refacción</label>
+                <select id="toolName">
+                    <optgroup label="Piezas de Motor">
+                        <option value="Bujía">Bujía</option>
+                        <option value="filtro_aceite">Filtro de aceite</option>
+                        <option value="banda_distribucion">Banda de distribución</option>
+                    </optgroup>
+
+                    <optgroup label="Piezas de Transmisión">
+                        <option value="disco_embrague">Disco de Embrague</option>
+                        <option value="junta_homocinetica">Junta Homocinética</option>
+                        <option value="semieje">Semieje de Transmisión</option>
+                    </optgroup>
+
+                    <optgroup label="Piezas de Suspension">
+                        <option value="amortiguador">Amortiguador</option>
+                        <option value="rotula">Rótula de Suspensión</option>
+                    </optgroup>
+
+                    <optgroup label="Llaves y Herramientas Especializadas">
+                        <option value="llave_combinada">Llave Combinada</option>
+                        <option value="llave_torx">Llave Torx</option>
+                        <option value="llave_dinamometrica">Llave Dinamometrica</option>
+                        <option value="extractor_poleas">Extractor de Poleas</option>
+                        <option value="compresor_resortes">Compresor de Resortes</option>
+                        <option value="scanner_obd2">Escáner automotriz OBD-II</option>
+                    </optgroup>
+                </select>
+                <label for="toolQuantity">Cantidad: </label>
+                <input type="number" id="toolQuantity" min="1" max="10">
+                <button id="requestTool">Solicitar Herramienta</button>
+                <br>
+            </fieldset>
+            <table border="1" style="border-collapse: collapse; width: 600px; margin: 0; text-align: center;">
+ <thead>
+    <tr>
+      <th colspan="5">Herramientas para la orden de servicio</th>
+    </tr>
+    <tr>
+      <th>No.</th>
+      <th>Herramienta</th>
+      <th>Categoría</th>
+      <th>Cantidad</th>
+      <th>Unidad</th>
+    </tr>
+ </thead>
+ <tbody>
+    <tr>
+      <td>1</td>
+      <td>Llave combinada</td>
+      <td>Herramienta manual</td>
+      <td>4</td>
+      <td>Piezas</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Llave dinamométrica</td>
+      <td>Herramienta especializada</td>
+      <td>2</td>
+      <td>Piezas</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Extractor de poleas</td>
+      <td>Herramienta especializada</td>
+      <td>1</td>
+      <td>Juego</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Llave Torx</td>
+      <td>Herramienta manual</td>
+      <td>3</td>
+      <td>Juegos</td>
+    </tr>
+ </tbody>
+ <tfoot>
+    <tr>
+      <td colspan="3" style="text-align: right; font-weight: bold;">Total de unidades</td>
+      <td>10</td>
+      <td>-</td>
+    </tr>
+ </tfoot>
+</table>
+        </div>
+
+        </form>
+    </main>
+    
+</body>
+</html>
