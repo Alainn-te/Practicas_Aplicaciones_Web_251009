@@ -597,3 +597,70 @@ datalist {
     transition: none !important;
   }
 }
+
+/* ==========================================================
+   AGREGADO – Registro por pasos y QR de WhatsApp
+   ========================================================== */
+
+/* Al avanzar de paso, la tarjeta no queda tapada por el menú fijo */
+#registro fieldset {
+  scroll-margin-top: 5rem;
+}
+
+/* Pasos bloqueados (todavía no se pulsó "Siguiente") */
+fieldset:disabled {
+  opacity: 0.55;
+}
+
+fieldset:disabled:hover {
+  box-shadow: var(--shadow);
+}
+
+/* Campos o botones deshabilitados dentro de una tarjeta activa
+   (URL de redes sin marcar, "Siguiente" de pasos ya completados) */
+fieldset:not(:disabled) :is(input, select, textarea, button):disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Botones deshabilitados: sin sombra ni efecto al pasar el cursor */
+button:disabled,
+input[type="submit"]:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button:disabled:hover,
+input[type="submit"]:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+input[type="submit"]:disabled,
+#registro > input[type="checkbox"]:disabled {
+  opacity: 0.5;
+}
+
+/* Vista previa del código QR de WhatsApp */
+#previewQrWhatsapp {
+  max-width: min(100%, 180px);
+  height: auto;
+  margin-top: 0.5rem;
+  border-radius: 12px;
+  border: 3px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+#previewQrWhatsapp:not([hidden]) {
+  display: block;
+}
+
+/* Texto de ayuda / error del QR */
+#ayudaQrWhatsapp {
+  color: var(--muted);
+}
+
+#ayudaQrWhatsapp.error {
+  color: #c0392b;
+  font-weight: 600;
+}

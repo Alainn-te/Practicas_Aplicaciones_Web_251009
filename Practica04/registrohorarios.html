@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MecaGest: Formulario de Registro de Nuevos Usuarios</title>
     <link rel="stylesheet" href="styless/stylemeca.css">
+    <script src="domicilios.js" defer></script>
     <script src="registroscript.js" defer>
      </script>
 </head>
@@ -77,6 +78,9 @@
             <br>
             <label for="edad">Edad:</label>
             <input type="text" id="edad" placeholder="Automática" readonly>
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente1" class="btn-siguiente">Siguiente</button>
             </fieldset>
 
             <fieldset>
@@ -102,9 +106,16 @@
                 <label for="chkLinkedin">LinkedIn</label>
                 <input type="url" id="urlLinkedin" placeholder="http://www.linkedin.com/UserName">
                 <br>
-                <input type="checkbox" id="chkInstagram">
-                <label for="chkInstagram">Instagram</label>
-                <input type="url" id="urlInstagram" placeholder="http://www.instagram.com/UserName">
+                <input type="checkbox" id="chkWhatsapp">
+                <label for="chkWhatsapp">WhatsApp</label>
+                <input type="file" id="qrWhatsapp" accept="image/*">
+                <br>
+                <small id="ayudaQrWhatsapp">Solo se permiten imágenes (JPG, PNG, WEBP): sube el código QR de tu WhatsApp.</small>
+                <br>
+                <img id="previewQrWhatsapp" alt="Vista previa del código QR de WhatsApp" hidden>
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente2" class="btn-siguiente">Siguiente</button>
             </fieldset>
 
             <fieldset>
@@ -119,6 +130,9 @@
                 <br>
                 <label for="confirmarContraseña">Confirmar Contraseña:</label>
                 <input type="password" id="confirmarContraseña" placeholder="******" required>
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente3" class="btn-siguiente">Siguiente</button>
             </fieldset>
 
             <fieldset>
@@ -141,6 +155,9 @@
                 <br>
                 <label for="codigoPostal">Código Postal:</label>
                 <input type="text" id="codigoPostal" placeholder="01234">
+            <br>
+            <br>
+            <button type="button" id="btnSiguiente4" class="btn-siguiente">Siguiente</button>
             </fieldset>
             <br>
             <input type="checkbox" value="validado"> Acepto términos y condiciones del uso de la plataforma MecaGest.

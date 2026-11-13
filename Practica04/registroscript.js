@@ -5,7 +5,7 @@
    Índice
      0. Configuración, utilidades y sonido
      1. Menú de navegación (pestañas)
-     2. Registro de nuevos usuarios
+     2. Registro de nuevos usuarios (por pasos, con QR de WhatsApp)
      3. Mis Citas (filtro por mes / semana)
      4. Agendar Cita
      5. Herramientas (solicitud y tabla de la orden de servicio)
@@ -29,7 +29,9 @@
     usuarioMax: 20,         // longitud máxima del nombre de usuario
     passwordMin: 8,         // longitud mínima de la contraseña
     fotoMaxMB: 2,           // tamaño máximo de la foto de perfil
-    constanciaMaxMB: 5      // tamaño máximo de la constancia fiscal (PDF)
+    constanciaMaxMB: 5,     // tamaño máximo de la constancia fiscal (PDF)
+    qrMaxMB: 1,             // tamaño máximo de la imagen del QR de WhatsApp
+    redesMinimas: 0         // redes sociales que se deben elegir (0 = opcionales)
   };
 
   // Claves usadas en localStorage (el navegador del usuario).
@@ -190,32 +192,25 @@
     const ciudad = campo('ciudad');
     const cp = campo('codigoPostal');
     const terminos = $('input[type="checkbox"][value="validado"]', form);
+    const botonEnviar = $('input[type="submit"]', form);
 
     // setCustomValidity: mensaje vacío = campo válido. El navegador muestra
-    // el mensaje con su burbuja nativa, así que no cambia tu diseño.
+    // el mensaje con su burbuja nativa.
     const marcar = (el, mensaje) => el.setCustomValidity(mensaje || '');
 
-    /* ---------- Redes sociales (Datos de Contacto) ----------
-       El HTML repite ids y no da id a las URL, así que se enlazan por
-       posición: casilla -> etiqueta -> campo URL. */
-    const fieldsetContacto = $$('fieldset', form)[1];
-    const definicionRedes = [
-      { nombre: 'Facebook', clave: 'Facebook', dominio: /(^|\.)(facebook|fb)\.com$/i, texto: 'facebook.com' },
-      { nombre: 'LinkedIn', clave: 'Linkedin', dominio: /(^|\.)linkedin\.com$/i, texto: 'linkedin.com' },
-      { nombre: 'Instagram', clave: 'Instagram', dominio: /(^|\.)instagram\.com$/i, texto: 'instagram.com' }
-    ];
-    const casillas = fieldsetContacto ? $$('input[type="checkbox"]', fieldsetContacto) : [];
-    const redes = casillas.map((casilla, i) => {
-      const etiqueta = casilla.nextElementSibling;
-      const url = etiqueta ? etiqueta.nextElementSibling : null;
-      const def = definicionRedes[i];
-      if (!def || !etiqueta || !url) return null;
-      // Ids únicos (invisibles) para que cada etiqueta apunte a su casilla.
-      casilla.id = 'chk' + def.clave;
-      url.id = 'url' + def.clave;
-      etiqueta.htmlFor = casilla.id;
-      return { ...def, casilla, url };
-    }).filter(Boolean);
+    /* ---------- Pasos del formulario ----------
+       Cada <fieldset> es un paso con su botón "Siguiente" (.btn-siguiente). */
+    const fieldsets = $$('fieldset', form);
+    const botonesSiguiente = fieldsets.map((fs) => $('.btn-siguiente', fs));
+    let paso = 0;          // índice del paso activo
+    let terminado = false; // true cuando el último paso se validó
+
+    /* ---------- Redes sociales con URL (Facebook y LinkedIn) ----------
+       La URL solo se habilita si se marca la casilla; al desmarcar se borra. */
+    const redesUrl = [
+      { nombre: 'Facebook', casilla: campo('chkFacebook'), url: campo('urlFacebook'), dominio: /(^|\.)(facebook|fb)\.com$/i, texto: 'facebook.com' },
+      { nombre: 'LinkedIn', casilla: campo('chkLinkedin'), url: campo('urlLinkedin'), dominio: /(^|\.)linkedin\.com$/i, texto: 'linkedin.com' }
+    ].filter((r) => r.casilla && r.url);
 
     function validarRed(red) {
       const valor = red.url.value.trim();
@@ -235,18 +230,141 @@
       marcar(red.url, mensaje);
     }
 
-    redes.forEach((red) => {
-      // Marcar la casilla lleva el cursor al campo de la URL.
+    redesUrl.forEach((red) => {
+      red.url.disabled = !red.casilla.checked;
       red.casilla.addEventListener('change', () => {
-        if (red.casilla.checked) red.url.focus();
+        if (red.casilla.checked) {
+          red.url.disabled = false;
+          red.url.focus();
+        } else {
+          red.url.value = '';
+          red.url.disabled = true;
+        }
         validarRed(red);
+        validarRedesMinimas();
       });
-      // Escribir una URL marca la casilla automáticamente.
-      red.url.addEventListener('input', () => {
-        if (red.url.value.trim()) red.casilla.checked = true;
-        validarRed(red);
-      });
+      red.url.addEventListener('input', () => validarRed(red));
     });
+
+    /* ---------- WhatsApp: se sube la imagen del código QR ----------
+       Solo acepta imágenes reales; si el archivo no lo es, se rechaza, se
+       vacía el campo y no deja avanzar. */
+    const chkWa = campo('chkWhatsapp');
+    const qrInput = campo('qrWhatsapp');
+    const qrVista = campo('previewQrWhatsapp');
+    const qrAyuda = campo('ayudaQrWhatsapp');
+    const hayWhatsapp = !!(chkWa && qrInput && qrVista && qrAyuda);
+    const TEXTO_AYUDA_QR = qrAyuda ? qrAyuda.textContent : '';
+    let qrDatos = null;  // imagen válida (data URL)
+    let qrError = '';    // último motivo de rechazo
+    let qrToken = 0;     // evita que una lectura vieja pise a una nueva
+
+    function mostrarAyudaQr(mensaje, esError) {
+      qrAyuda.textContent = mensaje || TEXTO_AYUDA_QR;
+      qrAyuda.classList.toggle('error', !!esError);
+    }
+    function limpiarQr() {
+      qrToken++;
+      qrDatos = null;
+      qrError = '';
+      qrInput.value = '';
+      qrVista.hidden = true;
+      qrVista.removeAttribute('src');
+      mostrarAyudaQr('', false);
+    }
+    function validarWhatsapp() {
+      if (!hayWhatsapp) return;
+      let mensaje = '';
+      if (chkWa.checked) {
+        if (qrError) mensaje = qrError;
+        else if (!qrDatos) mensaje = 'Sube la imagen del código QR de tu WhatsApp (solo imágenes).';
+      }
+      marcar(qrInput, mensaje);
+    }
+    function rechazarQr(mensaje) {
+      limpiarQr();
+      qrError = mensaje;
+      mostrarAyudaQr(mensaje, true);
+      validarWhatsapp();
+      avisar(mensaje, 'error');
+    }
+
+    if (hayWhatsapp) {
+      qrInput.disabled = !chkWa.checked;
+
+      chkWa.addEventListener('change', () => {
+        if (chkWa.checked) {
+          qrInput.disabled = false;
+          qrInput.focus();
+        } else {
+          limpiarQr();
+          qrInput.disabled = true;
+        }
+        validarWhatsapp();
+        validarRedesMinimas();
+      });
+
+      qrInput.addEventListener('change', () => {
+        const archivo = qrInput.files[0];
+        const token = ++qrToken;
+        qrDatos = null;
+        qrError = '';
+        qrVista.hidden = true;
+        mostrarAyudaQr('', false);
+
+        if (!archivo) {
+          validarWhatsapp();
+          return;
+        }
+        if (!/^image\//.test(archivo.type)) {
+          return rechazarQr('Solo se permiten imágenes (JPG, PNG, WEBP…). El archivo elegido no es una imagen.');
+        }
+        if (archivo.size > CONFIG.qrMaxMB * 1048576) {
+          return rechazarQr(`La imagen no debe pesar más de ${CONFIG.qrMaxMB} MB. Solo se permiten imágenes.`);
+        }
+
+        const lector = new FileReader();
+        lector.onerror = () => {
+          if (token === qrToken) rechazarQr('No se pudo leer el archivo. Solo se permiten imágenes.');
+        };
+        lector.onload = () => {
+          if (token !== qrToken) return;
+          // Comprueba que el navegador realmente pueda abrirla como imagen.
+          const prueba = new Image();
+          prueba.onload = () => {
+            if (token !== qrToken) return;
+            qrDatos = lector.result;
+            qrVista.src = qrDatos;
+            qrVista.hidden = false;
+            validarWhatsapp();
+          };
+          prueba.onerror = () => {
+            if (token !== qrToken) return;
+            rechazarQr('El archivo no es una imagen válida. Solo se permiten imágenes.');
+          };
+          prueba.src = lector.result;
+        };
+        lector.readAsDataURL(archivo);
+      });
+    }
+
+    // Mínimo de redes sociales exigido (CONFIG.redesMinimas, 0 = opcionales).
+    function validarRedesMinimas() {
+      const ancla = redesUrl[0] ? redesUrl[0].casilla : null;
+      if (!ancla) return;
+      const marcadas = redesUrl.filter((r) => r.casilla.checked).length + (hayWhatsapp && chkWa.checked ? 1 : 0);
+      marcar(ancla, CONFIG.redesMinimas && marcadas < CONFIG.redesMinimas
+        ? `Selecciona al menos ${CONFIG.redesMinimas} red(es) social(es).` : '');
+    }
+
+    // Deja las redes coherentes con sus casillas (se usa tras "Limpiar").
+    function sincronizarRedes() {
+      redesUrl.forEach((r) => { r.url.disabled = !r.casilla.checked; });
+      if (hayWhatsapp) {
+        if (!chkWa.checked) limpiarQr();
+        qrInput.disabled = !chkWa.checked;
+      }
+    }
 
     /* ---------- Nombre, apellidos, país, estado y ciudad ---------- */
     const REGEX_TEXTO = /^\p{L}+(?:[ '’.-]\p{L}+)*$/u;
@@ -279,25 +397,42 @@
       if (dm < 0 || (dm === 0 && hoy.getDate() < d)) anios--;
       return anios;
     }
+    let edadCalculada = null; // edad numérica válida (null si no hay o es inválida)
+
+    // Muestra el texto en el campo "Edad"; los errores salen en rojo y en mayúsculas.
+    function mostrarEdad(texto, esError) {
+      edad.value = texto;
+      edad.title = texto;
+      edad.style.color = esError ? '#c0392b' : '';
+      edad.style.fontWeight = esError ? '700' : '';
+      edad.style.fontSize = esError ? '0.8rem' : '';
+    }
+
     function actualizarEdad() {
       let mensaje = '';
+      edadCalculada = null;
+
       if (!fechaNac.value) {
-        edad.value = '';
+        mostrarEdad('', false);
       } else {
         const anios = calcularEdad(fechaNac.value);
         if (anios < 0) {
-          mensaje = 'La fecha de nacimiento no puede ser futura.';
-          edad.value = '';
+          // Se permite escribir una fecha futura, pero se marca como inválida.
+          mensaje = 'EDAD INVÁLIDA POR SER FUTURA';
+          mostrarEdad(mensaje, true);
         } else if (anios > 120) {
-          mensaje = 'Revisa la fecha de nacimiento.';
-          edad.value = '';
+          mensaje = 'EDAD INVÁLIDA: REVISA LA FECHA DE NACIMIENTO';
+          mostrarEdad('EDAD INVÁLIDA: REVISA LA FECHA', true);
         } else {
-          edad.value = anios;
+          edadCalculada = anios;
+          const unidad = anios === 1 ? 'año' : 'años';
+          const condicion = anios >= 18 ? 'Mayor de edad' : 'Menor de edad';
+          mostrarEdad(`${anios} ${unidad} · ${condicion}`, false);
         }
       }
       marcar(fechaNac, mensaje);
     }
-    fechaNac.max = aFechaISO(new Date());
+    // Sin atributo "max": el calendario deja elegir fechas futuras y se avisa en rojo.
     fechaNac.addEventListener('input', actualizarEdad);
     fechaNac.addEventListener('change', actualizarEdad);
 
@@ -380,6 +515,115 @@
       validarCP();
     });
 
+    /* ---------- Domicilio con catálogo (domicilios.js) ----------
+       Sugiere países, estados y ciudades del catálogo y completa país,
+       estado y ciudad al escribir un código postal conocido. Siempre se
+       puede capturar a mano: el catálogo es solo ilustrativo. */
+    const catalogo = window.MECAGEST_DOMICILIOS;
+    if (catalogo && pais && estado && ciudad && cp) {
+      const esMexico = (valor) => normalizar(valor) === 'mexico';
+      const sinPais = () => !pais.value.trim();
+      const ejemplos = catalogo.ejemplosMexico || [];
+      const unicos = (lista) => Array.from(new Set(lista));
+
+      // Crea una <datalist> invisible junto al campo y la enlaza (sin tocar el HTML).
+      function crearLista(id, input) {
+        const lista = document.createElement('datalist');
+        lista.id = id;
+        input.setAttribute('list', id);
+        input.setAttribute('autocomplete', 'off');
+        input.insertAdjacentElement('afterend', lista);
+        return lista;
+      }
+      function llenarLista(lista, valores) {
+        lista.innerHTML = '';
+        valores.forEach((valor) => {
+          const opcion = document.createElement('option');
+          opcion.value = valor;
+          lista.appendChild(opcion);
+        });
+      }
+      const listaPaises = crearLista('listaPaises', pais);
+      const listaEstados = crearLista('listaEstados', estado);
+      const listaCiudades = crearLista('listaCiudades', ciudad);
+
+      // Estados y ciudades solo se sugieren si el país es México (o está vacío).
+      function actualizarSugerencias() {
+        const sugerirMexico = sinPais() || esMexico(pais.value);
+        llenarLista(listaPaises, catalogo.paises);
+        llenarLista(listaEstados, sugerirMexico ? catalogo.estadosMexico : []);
+
+        const estadoNorm = normalizar(estado.value);
+        const estadoConocido = catalogo.estadosMexico.some((e) => normalizar(e) === estadoNorm);
+        const ciudades = ejemplos
+          .filter((e) => !estadoConocido || normalizar(e.estado) === estadoNorm)
+          .map((e) => e.ciudad);
+        llenarLista(listaCiudades, sugerirMexico ? unicos(ciudades) : []);
+      }
+
+      // Si lo escrito coincide con el catálogo (sin importar acentos o mayúsculas),
+      // se corrige a la forma oficial: "mexico" -> "México".
+      function aFormaOficial(input, valores) {
+        const oficial = valores.find((v) => normalizar(v) === normalizar(input.value));
+        if (oficial) input.value = oficial;
+      }
+
+      // Recuerda qué campos llenó el código postal, para poder actualizarlos
+      // si el usuario cambia el CP, sin pisar lo que escribió a mano.
+      let autoEstado = false;
+      let autoCiudad = false;
+
+      pais.addEventListener('input', actualizarSugerencias);
+      pais.addEventListener('blur', () => {
+        aFormaOficial(pais, catalogo.paises);
+        actualizarSugerencias();
+      });
+      estado.addEventListener('input', () => {
+        autoEstado = false;
+        actualizarSugerencias();
+      });
+      estado.addEventListener('blur', () => {
+        if (sinPais() || esMexico(pais.value)) aFormaOficial(estado, catalogo.estadosMexico);
+        actualizarSugerencias();
+      });
+      ciudad.addEventListener('input', () => { autoCiudad = false; });
+
+      // Al completar un CP conocido (5 dígitos) se llenan país, estado y ciudad.
+      cp.addEventListener('input', () => {
+        if (cp.value.length !== 5) return;
+        if (!sinPais() && !esMexico(pais.value)) return; // los CP del catálogo son de México
+        const hallado = ejemplos.find((e) => e.cp === cp.value);
+        if (!hallado) return; // CP desconocido: captura manual
+
+        if (sinPais()) {
+          pais.value = 'México';
+          validarTexto(pais, 'El país');
+        }
+        if (!estado.value.trim() || autoEstado) {
+          estado.value = hallado.estado;
+          autoEstado = true;
+          validarTexto(estado, 'El estado');
+        }
+        if (!ciudad.value.trim() || autoCiudad) {
+          ciudad.value = hallado.ciudad;
+          autoCiudad = true;
+          validarTexto(ciudad, 'La ciudad');
+        }
+        actualizarSugerencias();
+      });
+
+      // "Limpiar Formularios" también reinicia las sugerencias.
+      form.addEventListener('reset', () => {
+        setTimeout(() => {
+          autoEstado = false;
+          autoCiudad = false;
+          actualizarSugerencias();
+        }, 0);
+      });
+
+      actualizarSugerencias();
+    }
+
     /* ---------- Términos y condiciones ---------- */
     function validarTerminos() {
       if (terminos) {
@@ -388,8 +632,37 @@
     }
     if (terminos) terminos.addEventListener('change', validarTerminos);
 
+    /* ---------- Campos obligatorios ----------
+       Se exigen en JS (sin atributo required) para no alterar el diseño.
+       El apellido materno es opcional porque hay personas que no lo tienen. */
+    const obligatorios = [
+      [nombre, 'Nombre'],
+      [apPaterno, 'Apellido paterno'],
+      [fechaNac, 'Fecha de nacimiento'],
+      [email, 'Correo electrónico'],
+      [tel, 'Número telefónico'],
+      [horaIni, 'Horario de contacto (inicio)'],
+      [horaFin, 'Horario de contacto (fin)'],
+      [usuario, 'Usuario'],
+      [pass, 'Contraseña'],
+      [pass2, 'Confirmar contraseña'],
+      [direccion, 'Dirección'],
+      [pais, 'País'],
+      [estado, 'Estado'],
+      [ciudad, 'Ciudad'],
+      [cp, 'Código postal']
+    ].filter(([el]) => el);
+
+    function validarObligatorios() {
+      obligatorios.forEach(([el, etiqueta]) => {
+        if (!el.value.trim()) marcar(el, `Completa el campo «${etiqueta}».`);
+      });
+    }
+
     /* ---------- Ejecuta todas las validaciones ---------- */
     function ejecutarValidaciones() {
+      // Limpia mensajes viejos de "campo obligatorio" antes de reevaluar.
+      obligatorios.forEach(([el]) => marcar(el, ''));
       camposTexto.forEach(([el, etiqueta]) => validarTexto(el, etiqueta));
       actualizarEdad();
       validarTelefono();
@@ -398,14 +671,82 @@
       validarPassword();
       validarCP();
       validarTerminos();
-      redes.forEach(validarRed);
+      redesUrl.forEach(validarRed);
+      validarWhatsapp();
+      validarRedesMinimas();
+      validarObligatorios(); // al final: pisa el mensaje de los campos vacíos
     }
+
+    /* ---------- Asistente por pasos ---------- */
+    function aplicarPaso() {
+      // Los pasos posteriores al activo quedan deshabilitados.
+      fieldsets.forEach((fs, i) => { fs.disabled = i > paso; });
+      botonesSiguiente.forEach((boton, i) => {
+        if (boton) boton.disabled = terminado || i !== paso;
+      });
+      // Términos y envío solo se habilitan al completar el último paso.
+      if (terminos) terminos.disabled = !terminado;
+      if (botonEnviar) botonEnviar.disabled = !terminado;
+    }
+
+    const primerInvalido = (contenedor) =>
+      Array.from(contenedor.elements).find((el) => el.willValidate && !el.validity.valid);
+
+    function irAlSiguiente(i) {
+      ejecutarValidaciones();
+      const invalido = primerInvalido(fieldsets[i]);
+      if (invalido) {
+        Sonido.tocar('error');
+        invalido.reportValidity();
+        return;
+      }
+
+      Sonido.tocar('ok');
+      let destino;
+      if (i < fieldsets.length - 1) {
+        paso = i + 1;
+        destino = fieldsets[paso];
+      } else {
+        terminado = true;
+        destino = terminos;
+      }
+      aplicarPaso();
+
+      if (destino) {
+        if (typeof destino.scrollIntoView === 'function') {
+          destino.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        const primero = destino === terminos
+          ? terminos
+          : $('input:not([type="hidden"]):not(:disabled), select:not(:disabled)', destino);
+        if (primero) primero.focus({ preventScroll: true });
+      }
+    }
+
+    botonesSiguiente.forEach((boton, i) => {
+      if (!boton) return;
+      boton.addEventListener('click', (e) => {
+        e.preventDefault();
+        irAlSiguiente(i);
+      });
+    });
+
+    // Enter dentro de un paso equivale a pulsar "Siguiente".
+    form.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' || terminado) return;
+      const objetivo = e.target;
+      if (!['INPUT', 'SELECT'].includes(objetivo.tagName)) return;
+      if (['button', 'submit', 'reset', 'file'].includes(objetivo.type)) return;
+      e.preventDefault();
+      if (botonesSiguiente[paso]) botonesSiguiente[paso].click();
+    });
 
     /* ---------- Enviar solicitud ---------- */
     let reinicioInterno = false; // distingue el reset del botón del reset tras enviar
 
     form.addEventListener('submit', (e) => {
       e.preventDefault(); // evita recargar la página (no hay servidor todavía)
+      if (!terminado) return;
       ejecutarValidaciones();
       if (!form.checkValidity()) {
         Sonido.tocar('error');
@@ -414,20 +755,30 @@
       }
 
       const textoDe = (select) => select.options[select.selectedIndex].text;
+      const redesSociales = redesUrl
+        .filter((r) => r.casilla.checked && r.url.value.trim())
+        .map((r) => ({ red: r.nombre, url: r.url.value.trim() }));
+      if (hayWhatsapp && chkWa.checked && qrDatos) {
+        redesSociales.push({
+          red: 'WhatsApp',
+          qrNombre: qrInput.files[0] ? qrInput.files[0].name : '',
+          qrImagen: qrDatos
+        });
+      }
+
       const solicitud = {
         titulo: titulo.value,
         nombre: nombre.value.trim(),
         apellidoPaterno: apPaterno.value.trim(),
         apellidoMaterno: apMaterno.value.trim(),
-        genero: textoDe(genero), // se guarda el texto: los value del HTML están invertidos
+        genero: textoDe(genero),
         fechaNacimiento: fechaNac.value,
-        edad: edad.value,
+        edad: edadCalculada,
+        mayorDeEdad: edadCalculada !== null ? edadCalculada >= 18 : null,
         email: email.value.trim(),
         telefono: tel.value.trim(),
         horarioContacto: horaIni.value && horaFin.value ? `${horaIni.value} - ${horaFin.value}` : '',
-        redesSociales: redes
-          .filter((r) => r.casilla.checked && r.url.value.trim())
-          .map((r) => ({ red: r.nombre, url: r.url.value.trim() })),
+        redesSociales,
         usuario: usuario.value.trim(), // la contraseña NO se guarda
         direccion: direccion.value.trim(),
         pais: pais.value.trim(),
@@ -440,7 +791,7 @@
       const solicitudes = Almacen.leer(CLAVES.solicitudes, []);
       solicitudes.push(solicitud);
       if (!Almacen.guardar(CLAVES.solicitudes, solicitudes)) {
-        avisar('No se pudo guardar la solicitud en este navegador. Intenta de nuevo.', 'error');
+        avisar('No se pudo guardar la solicitud en este navegador (puede que la imagen del QR sea muy pesada). Intenta de nuevo.', 'error');
         return;
       }
 
@@ -456,11 +807,19 @@
         e.preventDefault();
         return;
       }
-      // Espera a que el navegador vacíe los campos y vuelve a evaluar.
-      setTimeout(ejecutarValidaciones, 0);
+      // Espera a que el navegador vacíe los campos y regresa al primer paso.
+      setTimeout(() => {
+        paso = 0;
+        terminado = false;
+        sincronizarRedes();
+        ejecutarValidaciones();
+        aplicarPaso();
+      }, 0);
     });
 
+    sincronizarRedes();
     ejecutarValidaciones();
+    aplicarPaso();
   }
 
   /* ===================================================================
@@ -563,9 +922,8 @@
 
   /* ===================================================================
      4. AGENDAR CITA  (#agendar)
-     El HTML actual no trae botón para enviar la solicitud. La función
-     agendarCita() ya está lista: se activa sola si agregas un botón con
-     id="btnAgendarCita".
+     El botón con id="btnAgendarCita" valida los datos y guarda la
+     solicitud de cita.
      =================================================================== */
   function iniciarAgendar() {
     const fecha = $('#dateAppoiment');

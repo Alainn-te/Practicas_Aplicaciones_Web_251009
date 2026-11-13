@@ -1,0 +1,312 @@
+// Archivo generado a partir de domicilios.json para funcionar abriendo HTML con file:// sin fetch() ni servidor.
+window.MECAGEST_DOMICILIOS = {
+  "nota": "Catálogo educativo ilustrativo, NO padrón completo ni verificación oficial de códigos postales; permitir captura manual.",
+  "paises": [
+    "México",
+    "Estados Unidos",
+    "Canadá",
+    "Guatemala",
+    "Colombia",
+    "España"
+  ],
+  "estadosMexico": [
+    "Aguascalientes",
+    "Baja California",
+    "Baja California Sur",
+    "Campeche",
+    "Coahuila",
+    "Colima",
+    "Chiapas",
+    "Chihuahua",
+    "Ciudad de México",
+    "Durango",
+    "Guanajuato",
+    "Guerrero",
+    "Hidalgo",
+    "Jalisco",
+    "Estado de México",
+    "Michoacán",
+    "Morelos",
+    "Nayarit",
+    "Nuevo León",
+    "Oaxaca",
+    "Puebla",
+    "Querétaro",
+    "Quintana Roo",
+    "San Luis Potosí",
+    "Sinaloa",
+    "Sonora",
+    "Tabasco",
+    "Tamaulipas",
+    "Tlaxcala",
+    "Veracruz",
+    "Yucatán",
+    "Zacatecas"
+  ],
+  "ejemplosMexico": [
+    {
+      "estado": "Puebla",
+      "ciudad": "Xicotepec",
+      "cp": "73080",
+      "colonia": "Xicotepec de Juárez Centro"
+    },
+    {
+      "estado": "Puebla",
+      "ciudad": "Huauchinango",
+      "cp": "73170",
+      "colonia": "Huauchinango Centro"
+    },
+    {
+      "estado": "Puebla",
+      "ciudad": "Puebla",
+      "cp": "72000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Puebla",
+      "ciudad": "Tehuacán",
+      "cp": "75700",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Puebla",
+      "ciudad": "Zacatlán",
+      "cp": "73310",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Puebla",
+      "ciudad": "Chignahuapan",
+      "cp": "73300",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Hidalgo",
+      "ciudad": "Tulancingo de Bravo",
+      "cp": "43600",
+      "colonia": "Tulancingo Centro"
+    },
+    {
+      "estado": "Hidalgo",
+      "ciudad": "Pachuca de Soto",
+      "cp": "42000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Hidalgo",
+      "ciudad": "Tizayuca",
+      "cp": "43800",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Hidalgo",
+      "ciudad": "Huejutla de Reyes",
+      "cp": "43000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Ciudad de México",
+      "ciudad": "Cuauhtémoc",
+      "cp": "06000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Ciudad de México",
+      "ciudad": "Coyoacán",
+      "cp": "04000",
+      "colonia": "Del Carmen"
+    },
+    {
+      "estado": "Ciudad de México",
+      "ciudad": "Miguel Hidalgo",
+      "cp": "11560",
+      "colonia": "Polanco"
+    },
+    {
+      "estado": "Estado de México",
+      "ciudad": "Toluca",
+      "cp": "50000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Estado de México",
+      "ciudad": "Naucalpan de Juárez",
+      "cp": "53000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Veracruz",
+      "ciudad": "Xalapa",
+      "cp": "91000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Veracruz",
+      "ciudad": "Veracruz",
+      "cp": "91700",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Jalisco",
+      "ciudad": "Guadalajara",
+      "cp": "44100",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Nuevo León",
+      "ciudad": "Monterrey",
+      "cp": "64000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Querétaro",
+      "ciudad": "Querétaro",
+      "cp": "76000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Yucatán",
+      "ciudad": "Mérida",
+      "cp": "97000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Oaxaca",
+      "ciudad": "Oaxaca de Juárez",
+      "cp": "68000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Guanajuato",
+      "ciudad": "León",
+      "cp": "37000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Tlaxcala",
+      "ciudad": "Tlaxcala",
+      "cp": "90000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Sonora",
+      "ciudad": "Hermosillo",
+      "cp": "83000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Guerrero",
+      "ciudad": "Chilpancingo de los Bravo",
+      "cp": "39000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Aguascalientes",
+      "ciudad": "Aguascalientes",
+      "cp": "20000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Campeche",
+      "ciudad": "Campeche",
+      "cp": "24000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Baja California",
+      "ciudad": "Tijuana",
+      "cp": "22000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Baja California Sur",
+      "ciudad": "La Paz",
+      "cp": "23000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Coahuila",
+      "ciudad": "Saltillo",
+      "cp": "25000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Colima",
+      "ciudad": "Colima",
+      "cp": "28000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Chiapas",
+      "ciudad": "Tuxtla Gutiérrez",
+      "cp": "29000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Chihuahua",
+      "ciudad": "Chihuahua",
+      "cp": "31000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Durango",
+      "ciudad": "Durango",
+      "cp": "34000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Michoacán",
+      "ciudad": "Morelia",
+      "cp": "58000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Morelos",
+      "ciudad": "Cuernavaca",
+      "cp": "62000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Nayarit",
+      "ciudad": "Tepic",
+      "cp": "63000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Quintana Roo",
+      "ciudad": "Chetumal",
+      "cp": "77000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "San Luis Potosí",
+      "ciudad": "San Luis Potosí",
+      "cp": "78000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Sinaloa",
+      "ciudad": "Culiacán",
+      "cp": "80000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Tabasco",
+      "ciudad": "Villahermosa",
+      "cp": "86000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Tamaulipas",
+      "ciudad": "Ciudad Victoria",
+      "cp": "87000",
+      "colonia": "Centro"
+    },
+    {
+      "estado": "Zacatecas",
+      "ciudad": "Zacatecas",
+      "cp": "98000",
+      "colonia": "Centro"
+    }
+  ]
+};
